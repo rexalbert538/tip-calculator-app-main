@@ -7,7 +7,7 @@ const buttons = document.querySelectorAll('.btn');
 const btnRest = document.querySelector('.btn__rest');
 const amount = document.querySelector('.tip__amount');
 const total = document.querySelector('.total');
-const text = document.querySelector('text');
+const text = document.querySelector('.text');
 
 inputBill.addEventListener('input', setBillValue);
 inputCustom.addEventListener('input', setCustomValue);
@@ -40,7 +40,16 @@ function restActiveBtn() {
 
 function setPeopleValue() {
   peopleValue = parseFloat(inputPeople.value);
-  calculateTip();
+  if (isNaN(peopleValue)) peopleValue = 0;
+
+  if (peopleValue < 1) {
+    text.classList.remove('hidden');
+    inputPeople.classList.add('error');
+  } else {
+    text.classList.add('hidden');
+    inputPeople.classList.remove('error');
+    calculateTip();
+  }
 }
 
 function setBtnValue(e) {
@@ -79,5 +88,7 @@ function restValue() {
   inputBill.value = '';
   inputPeople.value = '';
   inputCustom.value = '';
+  inputPeople.classList.remove('error');
+  text.classList.add('hidden');
   buttons[2].classList.add('active--btn');
 }
